@@ -1,14 +1,14 @@
 {
   "name": "frontend",
   "private": true,
-  "version": "0.0.2",
+  "version": "0.0.3",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "server": "nodemon ./server/app.js",
-    "patch": "npm version patch"
+    "patch": "npm version patch",
+    "serve": "serve -s ./dist"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.3",

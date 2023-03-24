@@ -16,6 +16,7 @@ import Giris from './pages/Giris';
 import MenuYetkilendirme from './pages/Menu/MenuYetkilendirme';
 
 import ProtectedRoute from './pages/ProtectedRoute';
+import MenuEkle from './pages/Menu/MenuEkle';
 
 
 function App() {
@@ -51,6 +52,7 @@ function App() {
             <ProtectedRoute exact path="/malzeme-cikis" component={MalzemeCikis} />
             <ProtectedRoute exact path="/birim-kodlama" component={BirimKodlama} />
             <ProtectedRoute exact path="/menu-yetkilendirme" component={MenuYetkilendirme} />
+            <ProtectedRoute exact path="/menu-ekle" component={MenuEkle} />
             <ProtectedRoute exact path="/" component={Anasayfa} />
 
           </Switch>

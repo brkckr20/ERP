@@ -173,6 +173,13 @@ const MenuIcon = ({ size, fill, ...rest }) => {
         </svg>
     )
 }
+const ExitIcon = ({ size, fill, ...rest }) => {
+    return (
+        <svg xmlns="http://www.w3.org/2000/svg" fill={fill} viewBox="0 0 1024 1024" strokeWidth={1.5} stroke="currentColor" width={size} height={size} {...rest}>
+            <path fill="none" strokeLinecap="round" strokeLinejoin="round" strokeEidth="32" d="M320 176v-40a40 40 0 00-40-40H88a40 40 0 00-40 40v240a40 40 0 0040 40h192a40 40 0 0040-40v-40m64-160l80 80-80 80m-193-80h273"></path>
+        </svg>
+    )
+}
 
 const Icon = ({ name, size = 24, fill }) => {
     const icons = {
@@ -197,7 +204,8 @@ const Icon = ({ name, size = 24, fill }) => {
         pdf: PdfIcon,
         fullScreen: FullScreenIcon,
         unit: UnitIcon,
-        menu: MenuIcon
+        menu: MenuIcon,
+        exit: ExitIcon
     }
     const Component = icons[name];
     return <Component size={size} fill={fill} />

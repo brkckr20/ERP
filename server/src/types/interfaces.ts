@@ -75,3 +75,12 @@ export interface ResponseMessage {
     data?: [] | {},
     token?: string;
 }
+
+export interface Menu{
+    ID?:number,
+    MENU_ADI: string,
+    LINK: string,
+    PARENT: number,
+    ACIKLAMA: string,
+    ICON: string,
+};

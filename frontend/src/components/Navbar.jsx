@@ -53,33 +53,15 @@ const Navbar = () => {
                         <Menu key={index} menu={menu} menuListesi={menuListesi} anaMenuler={anaMenuler} />
                     ))
                 }
-                <ListElement iconName="wareHouse" title="Sarf Malzeme İşlemleri" subTitles={depoYonetimi} />
+                {/* <ListElement iconName="wareHouse" title="Sarf Malzeme İşlemleri" subTitles={depoYonetimi} /> */}
             </div>
             <div className='mb-8 mx-2'>
-                <button onClick={handleLogout} className='w-full bg-red-500 px-2 py-1 rounded text-white hover:bg-red-600 duration-200'>Çıkış</button>
+                <button onClick={handleLogout} className='w-full bg-red-500 px-2 py-1 rounded text-white hover:bg-red-600 duration-200 flex items-center justify-center'>
+                    <span>Çıkış </span>
+                </button>
             </div>
         </nav>
     )
 }
 
 export default Navbar
-
-/*
-
-
-                {
-                    anaMenuler.map(menu => {
-                        const altMenu = menuListesi.filter(item => item.PARENT === menu.ID);
-                        console.log(altMenu);
-                        return <div key={menu.ID}>{menu.MENU_ADI}</div>
-                    })
-                }
-
-*/
-
-/*
-<ListElement iconName="home" title="Genel Bilgiler" subTitles={genel} />
-<ListElement iconName="process" title="Kartlar" subTitles={kartlar} />
-<ListElement iconName="code" title="Kodlama" subTitles={kodlama} />
-
-*/
