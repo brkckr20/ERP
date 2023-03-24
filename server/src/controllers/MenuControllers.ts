@@ -3,14 +3,14 @@ import { MySql } from "../db/db";
 import {  Menu, ResponseDatas } from '../types/interfaces';
 const mysql = new MySql();
 
-export const MenuleriGetir : Handler = (req,res) => {
+export const MenuleriGetir: Handler = (req, res) => {
     mysql.connect();    
+    const { kullanici_id } = req.params; 
     try {
-        mysql.query(`select menu.MENU_ADI,menu.ID,menu_yetki.YETKI 
-                    from menu
-                    INNER JOIN menu_yetki on menu_yetki.MENU_ID = menu.ID
-                    INNER JOIN kullanici on kullanici.ID = menu_yetki.KULLANICI_ID
-                    where kullanici.ID = 4`, [], (error, result, fields) => {
+        mysql.query(`SELECT * FROM 
+        menu_yetki 
+        JOIN kullanici ON menu_yetki.KULLANICI_ID = kullanici.ID
+        JOIN menu on menu.ID = menu_yetki.MENU_ID WHERE kullanici.ID = ${kullanici_id} and menu_yetki.GIZLE = 'Hayır';`, [], (error, result, fields) => {
             if (error) {
                 console.log("error var");
                 return;

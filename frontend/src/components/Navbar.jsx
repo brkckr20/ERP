@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import ListElement from './ListElement';
-import { depoYonetimi } from '../process/DepoYonetimi'
 import { Link } from 'react-router-dom';
 import Icon from '../icons';
 import { useDispatch, useSelector } from 'react-redux';
@@ -34,7 +32,6 @@ const Navbar = () => {
     }, [menuGetir])
 
     const dispath = useDispatch();
-
     const handleLogout = () => {
         if (confirm("Çıkış yapılacak\n Emin misiniz?")) {
             dispath(logout());

@@ -7,7 +7,7 @@ const API = API_URL;
 
 export const menuGetir = async (kullanici_id) => {
     try {
-        const { data } = await axios.get(`${API}/menu/${kullanici_id}`);
+        const { data } = await axios.get(`${API}/menuler/${kullanici_id}`);
         return data;
     } catch (error) {
         console.log(error);

@@ -12,7 +12,6 @@ import AuthRouter from './routes/Auth';
 import KullaniciRouter from './routes/Kullanici';
 import MenulerRouter from './routes/Menu';
 import MainRouter from './routes/Main';
-import authMiddleware from "./middlewares/authMiddleware";
 
 // import authMiddleware from "./middlewares/authMiddleware";
 
@@ -28,6 +27,6 @@ app.use("/ulke", UlkeRouter);
 app.use("/auth", AuthRouter);
 app.use("/kullanici", KullaniciRouter);
 app.use("/menuler", MenulerRouter);
-app.use("/"/* , authMiddleware */, MainRouter);
+app.use("/", MainRouter);
 
 app.listen(3002, () => console.log("Server listening on http://localhost:3002"));

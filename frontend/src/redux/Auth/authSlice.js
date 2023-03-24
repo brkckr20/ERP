@@ -26,7 +26,6 @@ const authSlice = createSlice({
             state.loading = true;
         },
         [girisYap.fulfilled]: (state, action) => {
-            console.log(action.payload);
             if (action.payload.code === 400) {
                 state.error = action.payload.message;
                 state.loading = false;
