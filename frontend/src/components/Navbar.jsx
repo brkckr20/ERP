@@ -46,7 +46,15 @@ const Navbar = () => {
             </div>
             <div className='mx-2 flex-1'>
                 {
-                    anaMenuler.map((menu, index) => (
+                    anaMenuler.sort((a, b) => {
+                        if (a.MENU_ADI < b.MENU_ADI) {
+                            return -1;
+                        }
+                        if (a.MENU_ADI > b.MENU_ADI) {
+                            return 11;
+                        }
+                        return 0
+                    }).map((menu, index) => (
                         <Menu key={index} menu={menu} menuListesi={menuListesi} anaMenuler={anaMenuler} />
                     ))
                 }
