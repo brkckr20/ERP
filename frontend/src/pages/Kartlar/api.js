@@ -37,3 +37,12 @@ export const ulkeKaydet = async (values) => {
         console.log(error);
     }
 }
+
+export const aksesuarKartiKaydet = async (values) => {
+    try {
+        const { data } = await axios.post(`${API}/aksesuar/kart`, values);
+        return data;
+    } catch (error) {
+        console.log(error);
+    }
+}

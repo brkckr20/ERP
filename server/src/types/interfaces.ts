@@ -84,3 +84,37 @@ export interface Menu{
     ACIKLAMA: string,
     ICON: string,
 };
+
+export interface Aksesuar {
+    ID:                 number;
+    AKSESUAR_KODU:      string;
+    AKSESUAR_CINSI:     string;
+    AKSESUAR_GRUP:      string;
+    AKSESUAR_EBAT:      string;
+    AKSESUAR_RENK:      string;
+    OZELLIK1:           string;
+    OZELLIK2:           string;
+    OZELLIK3:           string;
+    OZELLIK4:           string;
+    ACIKLAMA:           string;
+    BIRIM:              string;
+    BARKOD:             string;
+    DOVIZ_CINSI:        string;
+    BIRIM_FIYAT:        number;
+    CARPAN:             number;
+    BOLEN:              number;
+    AKSESUAR_HACIM:     number;
+    AKSESUAR_AGIRLIK:   number;
+    MINIMUM_STOK:       number;
+    MAXIMUM_STOK:       number;
+    EN:                 number;
+    BOY:                number;
+    YUKSEKLIK:          number;
+    TEDARIKCI_FIRMA:    string;
+    TEDARIKCI_FIRMA_AD: string;
+    MUSTERI_FIRMA:      string;
+    MUSTERI_FIRMA_AD:   string;
+    STOK_KODU:          string;
+    MICRON:             string;
+    PASIF:              boolean;
+}

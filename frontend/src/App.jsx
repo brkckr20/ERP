@@ -17,6 +17,7 @@ import MenuYetkilendirme from './pages/Menu/MenuYetkilendirme';
 
 import ProtectedRoute from './pages/ProtectedRoute';
 import MenuEkle from './pages/Menu/MenuEkle';
+import AksesuarKarti from './pages/Kartlar/AksesuarKarti';
 
 
 function App() {
@@ -45,6 +46,7 @@ function App() {
         <div className='bg-white w-full'>
           <Switch>
             <ProtectedRoute exact path="/ulke-karti" component={UlkeKarti} />
+            <ProtectedRoute exact path="/aksesuar-karti" component={AksesuarKarti} />
             <ProtectedRoute exact path="/firma-karti" component={FirmaKarti} />
             <ProtectedRoute exact path="/firma-sabitleri" component={FirmaSabitleri} />
             <ProtectedRoute exact path="/malzeme-karti-tanimlamalari" component={MalzemeKartiTanimlamalari} />
