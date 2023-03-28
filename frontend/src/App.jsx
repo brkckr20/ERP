@@ -18,6 +18,7 @@ import MenuYetkilendirme from './pages/Menu/MenuYetkilendirme';
 import ProtectedRoute from './pages/ProtectedRoute';
 import MenuEkle from './pages/Menu/MenuEkle';
 import AksesuarKarti from './pages/Kartlar/AksesuarKarti';
+import AksesuarSatinAlma from './pages/SatinAlma/MalzemeGiris';
 
 
 function App() {
@@ -45,9 +46,16 @@ function App() {
         <Navbar />
         <div className='bg-white w-full'>
           <Switch>
+            /* kartlar */
             <ProtectedRoute exact path="/ulke-karti" component={UlkeKarti} />
             <ProtectedRoute exact path="/aksesuar-karti" component={AksesuarKarti} />
             <ProtectedRoute exact path="/firma-karti" component={FirmaKarti} />
+            /* #kartlar */
+
+            /* satin alma */
+            <ProtectedRoute exact path="/aksesuar-satin-alma" component={AksesuarSatinAlma} />
+            /* #satin alma */
+
             <ProtectedRoute exact path="/firma-sabitleri" component={FirmaSabitleri} />
             <ProtectedRoute exact path="/malzeme-karti-tanimlamalari" component={MalzemeKartiTanimlamalari} />
             <ProtectedRoute exact path="/malzeme-giris" component={MalzemeGiris} />

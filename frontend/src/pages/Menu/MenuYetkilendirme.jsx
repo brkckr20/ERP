@@ -15,11 +15,12 @@ const MenuYetkilendirme = () => {
         kullanicilariGetir().then(({ data }) => {
             setKullanicilar(data);
         })
-        menuleriGetir(2).then(({ data }) => {
+    }, [])
+    useEffect(() => {
+        menuleriGetir(secilenKullanici).then(({ data }) => {
             setMenuler(data);
         });
-
-    }, [])
+    }, [secilenKullanici])
     return (
         <div className='p-2 flex gap-x-3'>
             <div className='w-1/3'>
@@ -46,13 +47,14 @@ const MenuYetkilendirme = () => {
                 </table>
             </div>
             <div className='w-2/3'>
-                <h3 className='font-semibold mb-2'>Kullanıcı Listesi</h3>
+                <h3 className='font-semibold mb-2'>Menü Listesi</h3>
                 <table className='border'>
                     <thead>
                         <tr className='border divide-x bg-green-400 text-white'>
-                            <td>ID #</td>
-                            <td>Menü</td>
-                            <td>Yetki Düzeyi</td>
+                            <td className='px-2'>ID #</td>
+                            <td className='px-2'>Menü</td>
+                            <td className='px-2'>Yetki Düzeyi</td>
+                            <td className='px-2'>Gizle</td>
                         </tr>
                     </thead>
                     <tbody>
@@ -67,6 +69,12 @@ const MenuYetkilendirme = () => {
                                             <option value={2}>{2}</option>
                                             <option value={3}>{3}</option>
                                             <option value={4}>{4}</option>
+                                        </select>
+                                    </td>
+                                    <td className='border px-1'>
+                                        <select defaultValue={menu.GIZLE} className='w-full'>
+                                            <option value="Evet">Evet</option>
+                                            <option value="Hayır">Hayır</option>
                                         </select>
                                     </td>
                                 </tr>

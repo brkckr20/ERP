@@ -58,3 +58,27 @@ export const MenuKaydet: Handler = (req, res) => {
     }
     mysql.close();
 } 
+
+export const TumMenuleriGetir: Handler = (req, res) => {
+    mysql.connect();    
+    const { kullanici_id } = req.params; 
+    try {
+        mysql.query(`SELECT * FROM 
+        menu_yetki 
+        JOIN kullanici ON menu_yetki.KULLANICI_ID = kullanici.ID
+        JOIN menu on menu.ID = menu_yetki.MENU_ID WHERE kullanici.ID = ${kullanici_id};`, [], (error, result, fields) => {
+            if (error) {
+                console.log("error var");
+                return;
+            }
+            res.send({
+                code: 200,
+                data: result,
+                message : "Menü listeleme işlemi başarılı."
+            } as ResponseDatas)
+        })
+    } catch (error) {
+        console.log(error);
+    }
+    mysql.close();
+}

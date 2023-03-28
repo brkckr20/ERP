@@ -1,13 +1,15 @@
 {
   "name": "frontend",
   "private": true,
-  "version": "0.0.4",
+  "version": "0.0.5",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
     "patch": "npm version patch",
+    "minor": "npm version minor",
+    "major": "npm version major",
     "serve": "serve -s ./dist"
   },
   "dependencies": {
