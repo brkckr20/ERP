@@ -18,7 +18,7 @@ import MenuYetkilendirme from './pages/Menu/MenuYetkilendirme';
 import ProtectedRoute from './pages/ProtectedRoute';
 import MenuEkle from './pages/Menu/MenuEkle';
 import AksesuarKarti from './pages/Kartlar/AksesuarKarti';
-import AksesuarSatinAlma from './pages/SatinAlma/MalzemeGiris';
+import AksesuarSatinAlma from './pages/SatinAlma/AksesuarSatinAlma';
 
 
 function App() {

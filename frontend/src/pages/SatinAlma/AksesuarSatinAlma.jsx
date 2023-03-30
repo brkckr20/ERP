@@ -132,13 +132,6 @@ const MalzemeGiris = () => {
         setGosterilenKayitId(0)
     }
 
-    // const idYeGoreKayitGetir = async (id) => {
-    //     setSonKayitVar(true);
-    //     const veri = await malzemeDepoGirisTekKayitGetir(id);
-    //     setGosterilenKayitId(veri[0].ID)
-    //     setOncekiKayit(veri);
-    //     setListModalShow(false);
-    // }
 
     return (
         <>

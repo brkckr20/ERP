@@ -149,3 +149,12 @@ export const depoStokGetir = async (depoAdi, depoTipi) => {
         console.log(error);
     }
 }
+
+export const listeDetay = async (depoAdi, depoTipi, listeDetayMi) => {
+    try {
+        const { data } = await axios.get(`${API}/${depoAdi}/${depoTipi}/listedetay`);
+        return data;
+    } catch (error) {
+        console.log(error);
+    }
+}

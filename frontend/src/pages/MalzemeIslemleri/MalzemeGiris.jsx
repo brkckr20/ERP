@@ -1,30 +1,37 @@
 import React, { useEffect, useState } from 'react'
 import { useFormik } from 'formik';
 import Icon from '../../icons';
-import { getData, malzemeGirisKaydet, malzemeGirisGetir, malzemeDepoListeDetay, malzemeDepoGirisTekKayitGetir } from './api';
+import { getData } from './api';
 import { kalemIslemGetir, cariGetir, birimGetir, oncekiKayitGetir, sonrakiKayitGetir, depoKaydet, vazgec } from '../globalApi';
 import Modal from '../../components/Modal';
 import ListModal from '../../components/Modal';
 import globalFilter from '../../utils/globalFilter';
 import LabelInput from '../../components/Inputs/LabelInput';
 import { converDate } from '../../utils/converDate';
-import Bildirim, { basarili, hatali, bilgi } from '../../components/Bildirim';
+import Bildirim, { basarili } from '../../components/Bildirim';
+import { idYeGoreFiltreleVeFormaYansit, listeDetayGetir, vazgecGetir } from '../kayitGetir';
+import { useListeler } from '../../hooks/useListeler';
+import formatDate from '../../utils/formatDate';
 
 const MalzemeGiris = () => {
 
-    const [malzemeListesi, setMalzemeListesi] = useState([]);
-    const [birimListesi, setBirimListesi] = useState([]);
-    const [cariListesi, setCariListesi] = useState([]);
+    const {
+        malzemeListesi, setMalzemeListesi, birimListesi, setBirimListesi,
+        cariListesi, setCariListesi, kalemIslemListesi, setKalemIslemListesi,
+
+        listeDetay, setListeDetay
+    } = useListeler();
+
+
     const [filterText, setFilterText] = useState("");
     const [filterCompany, setFilterCompany] = useState("");
     const [modalShow, setModalShow] = useState(false);
     const [listModalShow, setListModalShow] = useState(false);
     const [secilenKalem, setSecilenKalem] = useState({});
     const [kalem, setKalem] = useState([]);
-    const [kalemIslemListesi, setKalemIslemListesi] = useState([]);
+
 
     // önceki kayıtların listelenmesi işlemleri
-    const [listeDetay, setListeDetay] = useState([]);
     const [oncekiKayit, setOncekiKayit] = useState([]);
     const [gosterilenKayitId, setGosterilenKayitId] = useState(0);
     const [ilkKayitVar, setIlkKayitVar] = useState(true);
@@ -91,13 +98,7 @@ const MalzemeGiris = () => {
         setKalem(result);
     }
 
-    const kayitGetir = async (depoTipi, depoAdi) => {
-        const { data } = await vazgec(depoTipi, depoAdi);
-        setGosterilenKayitId(data[0].ID)
-        setOncekiKayit(data);
-        setSonKayitVar(false);
-        setIlkKayitVar(true);
-    }
+    const kayitGetir = () => vazgecGetir("giris", "malzemedepo", setGosterilenKayitId, setOncekiKayit, setSonKayitVar, setIlkKayitVar);
 
     const eskiKayitGetir = async (depoAdi, depoTipi, kayitNo) => {
         const veri = await oncekiKayitGetir(depoAdi, depoTipi, kayitNo);
@@ -123,11 +124,8 @@ const MalzemeGiris = () => {
         setIlkKayitVar(true);
     }
 
-    const listeDetayGetir = async (depoTipi) => {
-        setListModalShow(true)
-        // const veri = await malzemeDepoListeDetay(depoTipi);
-        // setListeDetay(veri);
-    }
+    const listeDetayListesi = () => listeDetayGetir("malzemedepo", formik.values.ISLEM_CINSI, setListModalShow, setListeDetay);
+    const idYeGoreGetir = (id) => idYeGoreFiltreleVeFormaYansit(id, listeDetay, setOncekiKayit, setListModalShow)
 
     const yeniFisOlustur = () => {
         setOncekiKayit([]);
@@ -163,10 +161,10 @@ const MalzemeGiris = () => {
                         <button title='İleri' type="button" onClick={() => sonrakiKayit("malzemedepo", "giris", gosterilenKayitId)} disabled={sonKayitVar ? false : true} className='border p-2 rounded-lg hover:bg-slate-200 disabled:bg-slate-300 disabled:cursor-not-allowed'>
                             <Icon name="arrowNext" size={35} />
                         </button>
-                        <button title='Liste' type="button" onClick={() => listeDetayGetir("giris")} className='border p-2 rounded-lg hover:bg-slate-200 disabled:bg-slate-300 disabled:cursor-not-allowed'>
+                        <button title='Liste' type="button" onClick={listeDetayListesi} /* onClick={() => listeDetayGetir("giris")} */ className='border p-2 rounded-lg hover:bg-slate-200 disabled:bg-slate-300 disabled:cursor-not-allowed'>
                             <Icon name="list" size={35} />
                         </button>
-                        <button title='Vazgeç' type="button" onClick={() => kayitGetir("giris", "malzemedepo")} className='border p-2 rounded-lg hover:bg-slate-200'>
+                        <button title='Vazgeç' type="button" onClick={kayitGetir} className='border p-2 rounded-lg hover:bg-slate-200'>
                             <Icon name="giveUp" size={35} />
                         </button>
                         <button title='Sil' type="button" className='border p-2 rounded-lg hover:bg-slate-200'>
@@ -240,9 +238,6 @@ const MalzemeGiris = () => {
                                                             onChange={(e) => handleBirimUpdate(e, i)}
                                                             onFocus={() => handleFocus(i)}
                                                         /></td>
-                                                        {/* <td className='w-[200px]'>
-                                                            <input type="text" placeholder='Birim' value={i.BIRIM} disabled="disabled" />
-                                                        </td> */}
                                                         <td className='w-[200px]'>
                                                             <select className='w-[200px]' name="birim" id="">
                                                                 <option value="">Seçiniz</option>
@@ -351,36 +346,36 @@ const MalzemeGiris = () => {
                 </table>
             </Modal>
             <ListModal title="Liste Detay" modalShow={listModalShow} setModalShow={setListModalShow} firmaSec={firmaSec}>
-                <div>
+                <div className='sticky top-[23.5px] bg-white'>
                     <span>Ara : </span>
                     <input type="text" className='border outline-none pl-1 mb-1' value={filterCompany} onChange={(e) => setFilterCompany(e.target.value)} />
                 </div>
-                <table className='w-full'>
+                <table className=''>
                     <thead className='bg-blue-200'>
-                        <tr className='py-2'>
-                            <td className='w-32'>Tarih</td>
-                            <td className='w-32'>Firma Kodu</td>
-                            <td>Firma Adı</td>
-                            <td className='w-32'>Kalem İşlem</td>
-                            <td className='w-32'>Malzeme Kodu</td>
-                            <td className='w-32'>Malzeme Adı</td>
-                            <td className='w-16'>Miktar</td>
+                        <tr className='py-2 text-center'>
+                            <td className='w-[300px]'>Tarih</td>
+                            <td className='w-[300px]'>Firma Kodu</td>
+                            <td className='w-[300px]'>Firma Adı</td>
+                            <td className='w-[300px]'>Kalem İşlem</td>
+                            <td className='w-[300px]'>Malzeme Kodu</td>
+                            <td className='w-[500px]'>Malzeme Adı</td>
+                            <td className='w-[300px]'>Miktar</td>
                             <td>Birim</td>
                         </tr>
                     </thead>
                     <tbody>
                         {
                             listeDetay.map((item, key) => (
-                                <tr key={key} className='hover:bg-gray-200 duration-150 select-none cursor-pointer border divide-x'
-                                    onDoubleClick={() => idYeGoreKayitGetir(item.ID)}>
-                                    <td>{converDate(item.TARIH)}</td>
-                                    <td>{item.FIRMA_KODU}</td>
-                                    <td>{item.FIRMA_ADI}</td>
-                                    <td>{item.KALEM_ISLEM}</td>
-                                    <td>{item.MALZEME_KODU}</td>
-                                    <td>{item.MALZEME_ADI}</td>
-                                    <td>{item.MIKTAR}</td>
-                                    <td>{item.BIRIM}</td>
+                                <tr key={key} className='hover:bg-blue-600 hover:text-white text-center duration-150 select-none cursor-pointer border divide-x'
+                                    onDoubleClick={() => idYeGoreGetir(item.ID)}>
+                                    <td className='w-[300px]'>{formatDate(item.TARIH)}</td>
+                                    <td className='w-[300px]'>{item.FIRMA_KODU}</td>
+                                    <td className='w-[300px]'>{item.FIRMA_ADI}</td>
+                                    <td className='w-[300px]'>{item.KALEM_ISLEM}</td>
+                                    <td className='w-[300px]'>{item.MALZEME_KODU}</td>
+                                    <td className='w-[500px]'>{item.MALZEME_ADI}</td>
+                                    <td className='w-[300px]'>{item.MIKTAR}</td>
+                                    <td className='w-[300px]'>{item.BIRIM}</td>
                                 </tr>
                             ))
                         }
