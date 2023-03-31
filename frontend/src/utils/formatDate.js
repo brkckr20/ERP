@@ -5,3 +5,10 @@ export default function formatDate(dateString) {
     const year = date.getFullYear();
     return `${day}.${month}.${year}`;
 }
+
+
+export const inputDateFormat = (t) => {
+    const tarih = new Date(t);
+    const d = tarih.toLocaleDateString('fr-CA');
+    return d;
+}

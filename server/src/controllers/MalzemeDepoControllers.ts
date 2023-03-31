@@ -183,65 +183,6 @@ export const MalzemeDepoKaydet: Handler = (req, res) => {
     } else {
         console.log("güncelleme");
     }
-    return
-    try {
-        const { ISLEM_CINSI, TARIH, TEDARIKCI_KODU, TEDARIKCI_ADI, FATURA_NO} /* : MalzemeDepo */ = req.body.values;
-                    const sorgu = `INSERT INTO malzeme_depo1
-                    (ISLEM_CINSI,TARIH, FIRMA_KODU, FIRMA_ADI,FATURA_NO)
-                    VALUES (
-                        '${ISLEM_CINSI}',
-                        '${TARIH}',
-                        '${TEDARIKCI_KODU}',
-                        '${TEDARIKCI_ADI}',
-                        '${FATURA_NO}'
-                    )`;                
-                    mysql.query(sorgu, [], (error, result, fields) => {
-                        if (error) {
-                            console.log(error);
-                            return;
-                        }
-                        console.log("kayit basarili");
-                        res.send({
-                            code: 200,
-                            message :"Birim kayıt işlemi başarılı."
-                        } as ResponseDataSuccessfully)
-                    })
-        return;
-        switch (depoTipi) {
-            case "giris":
-                if (id === undefined) { //id undefined ise yeni kayıt demektir.
-                    const { ISLEM_CINSI, TARIH, TEDARIKCI_KODU, TEDARIKCI_ADI, FATURA_NO} /* : MalzemeDepo */ = req.body.values;
-                    const sorgu = `INSERT INTO malzeme_depo1
-                    (ISLEM_CINSI,TARIH, FIRMA_KODU, FIRMA_ADI,FATURA_NO)
-                    VALUES (
-                        '${ISLEM_CINSI}',
-                        '${TARIH}',
-                        '${TEDARIKCI_KODU}',
-                        '${TEDARIKCI_ADI}',
-                        '${FATURA_NO}'
-                    )`;                
-                    mysql.query(sorgu, [], (error, result, fields) => {
-                        if (error) {
-                            console.log(error);
-                            return;
-                        }
-                        res.send({
-                            code: 200,
-                            message :"Birim kayıt işlemi başarılı."
-                        } as ResponseDataSuccessfully)
-                    })
-                    
-                }
-                break;
-        
-            default:
-                break;
-        }
-    } catch (error) {
-        console.log("error -> ",error);
-        res.send("eror");
-    }
-    mysql.close();
 }
 
 export const MalzemeDepoListeDetay: Handler = (req, res) => {
@@ -263,6 +204,27 @@ export const MalzemeDepoListeDetay: Handler = (req, res) => {
             })
     } catch (error) {
         
+    }
+    mysql.close();
+}
+
+export const MalzemeDepoFisSil: Handler = (req, res) => {
+    let { id } = req.params;
+    mysql.connect();
+    try {
+        const fisSilmeSorgusu = `DELETE FROM malzeme_depo1 WHERE ID = ${id}`;
+        mysql.query(fisSilmeSorgusu, [], (err, result, fields) => {
+            const kalemSilmeSorgusu = `DELETE FROM malzeme_depo2 WHERE REF_NO = ${id}`;
+            mysql.query(kalemSilmeSorgusu, [], (error, result, fields) => {
+                res.send({
+                    code: 200,
+                    message : `${id} numaralı kayıt başarıyla silindi!`
+                } as ResponseDatas)
+                
+            })
+        })
+    } catch (error) {
+        console.log(error);        
     }
     mysql.close();
 }

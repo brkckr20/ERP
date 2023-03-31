@@ -1,5 +1,6 @@
 import express from 'express';
 import {
+    MalzemeDepoFisSil,
     MalzemeDepoGetir,
     MalzemeDepoKaydet,
     MalzemeDepoListeDetay,
@@ -14,5 +15,6 @@ router.get("/:depoTipi/listedetay", MalzemeDepoListeDetay);
 router.get("/:tip/onceki/:id", MalzemeDepoOncekiKayitGetir);
 router.get("/:tip/sonraki/:id", MalzemeDepoSonrakiKayitGetir);
 router.post("/:depoTipi/:id", MalzemeDepoKaydet);
+router.delete("/:id", MalzemeDepoFisSil);
 
 export default router;

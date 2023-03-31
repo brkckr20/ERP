@@ -2,16 +2,17 @@ import React, { useEffect, useState } from 'react'
 import { useFormik } from 'formik';
 import Icon from '../../icons';
 import { getData } from './api';
-import { kalemIslemGetir, cariGetir, birimGetir, oncekiKayitGetir, sonrakiKayitGetir, depoKaydet, vazgec } from '../globalApi';
+import { kalemIslemGetir, cariGetir, birimGetir, oncekiKayitGetir, sonrakiKayitGetir, depoKaydet } from '../globalApi';
 import Modal from '../../components/Modal';
 import ListModal from '../../components/Modal';
 import globalFilter from '../../utils/globalFilter';
 import LabelInput from '../../components/Inputs/LabelInput';
-import { converDate } from '../../utils/converDate';
+import convertDecimal from '../../utils/convertDecimal';
 import Bildirim, { basarili } from '../../components/Bildirim';
 import { idYeGoreFiltreleVeFormaYansit, listeDetayGetir, vazgecGetir } from '../kayitGetir';
 import { useListeler } from '../../hooks/useListeler';
-import formatDate from '../../utils/formatDate';
+import formatDate, { inputDateFormat } from '../../utils/formatDate';
+import { fisSil } from '../kayitSil';
 
 const MalzemeGiris = () => {
 
@@ -125,20 +126,12 @@ const MalzemeGiris = () => {
     }
 
     const listeDetayListesi = () => listeDetayGetir("malzemedepo", formik.values.ISLEM_CINSI, setListModalShow, setListeDetay);
-    const idYeGoreGetir = (id) => idYeGoreFiltreleVeFormaYansit(id, listeDetay, setOncekiKayit, setListModalShow)
+    const idYeGoreGetir = (id) => idYeGoreFiltreleVeFormaYansit(id, listeDetay, setOncekiKayit, setListModalShow, setGosterilenKayitId)
 
     const yeniFisOlustur = () => {
         setOncekiKayit([]);
         setGosterilenKayitId(0)
     }
-
-    // const idYeGoreKayitGetir = async (id) => {
-    //     setSonKayitVar(true);
-    //     const veri = await malzemeDepoGirisTekKayitGetir(id);
-    //     setGosterilenKayitId(veri[0].ID)
-    //     setOncekiKayit(veri);
-    //     setListModalShow(false);
-    // }
 
     return (
         <>
@@ -161,20 +154,20 @@ const MalzemeGiris = () => {
                         <button title='İleri' type="button" onClick={() => sonrakiKayit("malzemedepo", "giris", gosterilenKayitId)} disabled={sonKayitVar ? false : true} className='border p-2 rounded-lg hover:bg-slate-200 disabled:bg-slate-300 disabled:cursor-not-allowed'>
                             <Icon name="arrowNext" size={35} />
                         </button>
-                        <button title='Liste' type="button" onClick={listeDetayListesi} /* onClick={() => listeDetayGetir("giris")} */ className='border p-2 rounded-lg hover:bg-slate-200 disabled:bg-slate-300 disabled:cursor-not-allowed'>
+                        <button title='Liste' type="button" onClick={listeDetayListesi} className='border p-2 rounded-lg hover:bg-slate-200 disabled:bg-slate-300 disabled:cursor-not-allowed'>
                             <Icon name="list" size={35} />
                         </button>
                         <button title='Vazgeç' type="button" onClick={kayitGetir} className='border p-2 rounded-lg hover:bg-slate-200'>
                             <Icon name="giveUp" size={35} />
                         </button>
-                        <button title='Sil' type="button" className='border p-2 rounded-lg hover:bg-slate-200'>
+                        <button title='Sil' onClick={() => fisSil("malzemedepo", gosterilenKayitId, basarili, kayitGetir)} disabled={gosterilenKayitId === 0 ? true : false} type="button" className='border p-2 rounded-lg hover:bg-slate-200 disabled:bg-gray-300 disabled:cursor-not-allowed'>
                             <Icon name="trash" size={35} />
                         </button>
                     </div>
                     <div className='flex w-full gap-x-2 bg-orange-200 p-2'>
                         <div>
                             <LabelInput label="İşlem Cinsi : " value={formik.values.ISLEM_CINSI} disabled="disabled" onChange={formik.handleChange} name="ISLEM_CINSI" className='w-full border outline-none px-1' type="text" />
-                            <LabelInput label="Tarih : " value={oncekiKayit.length > 0 ? converDate(oncekiKayit[0].TARIH) : formik.values.TARIH} onChange={formik.handleChange} name="TARIH" className='w-full border outline-none px-1' type="date" />
+                            <LabelInput label="Tarih : " value={oncekiKayit.length > 0 ? inputDateFormat(oncekiKayit[0].TARIH) : formik.values.TARIH} onChange={formik.handleChange} name="TARIH" className='w-full border outline-none px-1' type="date" />
                             <div className='flex'>
                                 <label className='inline-block max-w-[200px] w-full'>Tedarikçi Firma Kodu : </label>
                                 <div className='flex border'>
@@ -197,13 +190,6 @@ const MalzemeGiris = () => {
                     </div>
                     <div className='h-80 border mt-1'>
                         <div className='flex h-full'>
-                            <div className='bg-gray-200 text-center w-6 shrink-0'>
-                                <div className='my-1'>
-                                    {/* <button title="Yeni Satır Ekle">
-                                        <Icon name="new" />
-                                    </button> */}
-                                </div>
-                            </div>
                             <div className='w-full overflow-x-auto'>
                                 <table className='relative'>
                                     <thead className='bg-blue-800 sticky top-0'>
@@ -234,20 +220,12 @@ const MalzemeGiris = () => {
                                                         </td>
                                                         <td className='w-[200px]'><input type="text" placeholder='Malzeme Kodu' value={i.MALZEME_KODU} disabled="disabled" /></td>
                                                         <td className='w-[300px]'><input className='w-full' type="text" placeholder='Malzeme Adı' value={i.MALZEME_ADI} title={i.MALZEME_ADI} disabled="disabled" /></td>
-                                                        <td className='w-[75px]'><input type="number" className='w-[75px] border'
+                                                        <td className='w-[75px]'><input type="number" className='w-[75px] text-center border'
                                                             onChange={(e) => handleBirimUpdate(e, i)}
                                                             onFocus={() => handleFocus(i)}
+                                                            onBlur={convertDecimal}
                                                         /></td>
-                                                        <td className='w-[200px]'>
-                                                            <select className='w-[200px]' name="birim" id="">
-                                                                <option value="">Seçiniz</option>
-                                                                {
-                                                                    birimListesi.map(item => (
-                                                                        <option key={item.ad} value={item.ad}>{item.ad}</option>
-                                                                    ))
-                                                                }
-                                                            </select>
-                                                        </td>
+                                                        <td className='w-[200px]'><input type="text" placeholder='Birim' value={i.BIRIM} disabled="disabled" /></td>
                                                     </tr>
                                                 ))
                                                 : oncekiKayit.map((i, k) => (
@@ -260,7 +238,7 @@ const MalzemeGiris = () => {
                                                         </td>
                                                         <td className='w-[200px]'><input type="text" placeholder='Malzeme Kodu' value={i.MALZEME_KODU} disabled="disabled" /></td>
                                                         <td className='w-[300px]'><input className='w-full' type="text" placeholder='Malzeme Adı' value={i.MALZEME_ADI} title={i.MALZEME_ADI} disabled="disabled" /></td>
-                                                        <td className='w-[200px]'><input type="number" placeholder='Miktar' value={i.MIKTAR}
+                                                        <td className='w-[200px]'><input type="number" step="0.01" className='text-center' placeholder='Miktar' value={i.MIKTAR}
                                                             onChange={(e) => handleBirimUpdate(e, i)}
                                                             onFocus={() => handleFocus(i)}
                                                         /></td>
@@ -275,7 +253,7 @@ const MalzemeGiris = () => {
                     </div>
                 </form>
             </div>
-            <div className='border-t border-gray-200 px-2 overflow-x-auto max-h-[410px]'>
+            <div className='border-t border-gray-200 px-2 overflow-x-auto max-h-[500px]'>
                 <div className='flex gap-4 items-center my-2 sticky top-0 bg-gray-200'>
                     <h1 className=' text-lg font-semibold'>Malzeme Kartı</h1>
                     <div>
@@ -367,7 +345,9 @@ const MalzemeGiris = () => {
                         {
                             listeDetay.map((item, key) => (
                                 <tr key={key} className='hover:bg-blue-600 hover:text-white text-center duration-150 select-none cursor-pointer border divide-x'
-                                    onDoubleClick={() => idYeGoreGetir(item.ID)}>
+                                    onDoubleClick={() => {
+                                        idYeGoreGetir(item.ID)
+                                    }}>
                                     <td className='w-[300px]'>{formatDate(item.TARIH)}</td>
                                     <td className='w-[300px]'>{item.FIRMA_KODU}</td>
                                     <td className='w-[300px]'>{item.FIRMA_ADI}</td>

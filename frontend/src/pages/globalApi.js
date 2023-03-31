@@ -150,7 +150,7 @@ export const depoStokGetir = async (depoAdi, depoTipi) => {
     }
 }
 
-export const listeDetay = async (depoAdi, depoTipi, listeDetayMi) => {
+export const listeDetay = async (depoAdi, depoTipi) => {
     try {
         const { data } = await axios.get(`${API}/${depoAdi}/${depoTipi}/listedetay`);
         return data;
@@ -158,3 +158,12 @@ export const listeDetay = async (depoAdi, depoTipi, listeDetayMi) => {
         console.log(error);
     }
 }
+
+export const fisIslemSil = async (depoAdi, id) => {
+    try {
+        const { data } = await axios.delete(`${API}/${depoAdi}/${id}`);
+        return data;
+    } catch (error) {
+        console.log(error);
+    }
+} 

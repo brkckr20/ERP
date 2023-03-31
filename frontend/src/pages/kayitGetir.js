@@ -14,8 +14,9 @@ export const listeDetayGetir = async (depoAdi, depoTipi, setListModalShow, setLi
     setListeDetay(response.data);
 }
 
-export const idYeGoreFiltreleVeFormaYansit = (id, listeDetay, setOncekiKayit, setListModalShow) => {
+export const idYeGoreFiltreleVeFormaYansit = (id, listeDetay, setOncekiKayit, setListModalShow, setGosterilenKayitId) => {
     const x = listeDetay.filter(item => item.ID === id);
     setOncekiKayit(x);
     setListModalShow(false);
+    setGosterilenKayitId(id)
 }
