@@ -196,6 +196,14 @@ const BillIcon = ({ size, fill, ...rest }) => {
     )
 }
 
+const PrintIcon = ({ size, fill, ...rest }) => {
+    return (
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" width={size} height={size}>
+            <path stroke-linecap="round" stroke-linejoin="round" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
+        </svg>
+    )
+}
+
 const Icon = ({ name, size = 24, fill }) => {
     const icons = {
         home: HomeIcon,
@@ -222,7 +230,8 @@ const Icon = ({ name, size = 24, fill }) => {
         menu: MenuIcon,
         exit: ExitIcon,
         accessories: AccessoriesIcon,
-        bill: BillIcon
+        bill: BillIcon,
+        print: PrintIcon
     }
     const Component = icons[name];
     return <Component size={size} fill={fill} />
