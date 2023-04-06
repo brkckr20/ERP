@@ -166,4 +166,14 @@ export const fisIslemSil = async (depoAdi, id) => {
     } catch (error) {
         console.log(error);
     }
+}
+
+
+export const gorselRaporGetir = async (id) => {
+    try {
+        const { data } = await axios.get(`${API}/rapor/gorsel-rapor`);
+        return data;
+    } catch (error) {
+        console.log(error);
+    }
 } 

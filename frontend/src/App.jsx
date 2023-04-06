@@ -19,6 +19,9 @@ import ProtectedRoute from './pages/ProtectedRoute';
 import MenuEkle from './pages/Menu/MenuEkle';
 import AksesuarKarti from './pages/Kartlar/AksesuarKarti';
 import AksesuarSatinAlma from './pages/SatinAlma/AksesuarSatinAlma';
+import GorselRapor from './pages/Rapor/GorserRapor';
+
+/* rapor */
 
 
 function App() {
@@ -55,6 +58,9 @@ function App() {
             /* satin alma */
             <ProtectedRoute exact path="/aksesuar-satin-alma" component={AksesuarSatinAlma} />
             /* #satin alma */
+
+            {/* rapor */}
+            <ProtectedRoute exact path="/gorsel-rapor" component={GorselRapor} />
 
             <ProtectedRoute exact path="/firma-sabitleri" component={FirmaSabitleri} />
             <ProtectedRoute exact path="/malzeme-karti-tanimlamalari" component={MalzemeKartiTanimlamalari} />
