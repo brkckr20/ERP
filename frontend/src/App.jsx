@@ -20,6 +20,7 @@ import MenuEkle from './pages/Menu/MenuEkle';
 import AksesuarKarti from './pages/Kartlar/AksesuarKarti';
 import AksesuarSatinAlma from './pages/SatinAlma/AksesuarSatinAlma';
 import GorselRapor from './pages/Rapor/GorserRapor';
+import Gorseller from './pages/Rapor/GorserRapor/Gorseller';
 
 /* rapor */
 
@@ -61,6 +62,7 @@ function App() {
 
             {/* rapor */}
             <ProtectedRoute exact path="/gorsel-rapor" component={GorselRapor} />
+            <ProtectedRoute exact path="/gorsel-rapor/:id" component={Gorseller} />
 
             <ProtectedRoute exact path="/firma-sabitleri" component={FirmaSabitleri} />
             <ProtectedRoute exact path="/malzeme-karti-tanimlamalari" component={MalzemeKartiTanimlamalari} />

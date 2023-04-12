@@ -69,8 +69,8 @@ const FirmaKarti = () => {
                     </div>
                 </form>
             </div>
-            <div className='border-t border-gray-200 px-2'>
-                <div className='flex gap-4 items-center justify-between my-2 border-b pb-2'>
+            <div className='border-t border-gray-200 px-2 overflow-y-scroll max-h-[820px] relative'>
+                <div className='flex gap-4 items-center justify-between my-2 border-b pb-2 sticky top-[8px] bg-white'>
                     <h1 className=' text-lg font-semibold'>Ülke Listesi</h1>
                     <div>
                         <input type="text" className='border outline-none pl-1' value={filterText} onChange={(e) => setFilterText(e.target.value)} />
@@ -78,7 +78,7 @@ const FirmaKarti = () => {
                     </div>
                 </div>
                 <table className=''>
-                    <thead className='bg-green-200'>
+                    <thead className='bg-green-200 sticky top-[58px]'>
                         <tr className='py-2 divide-x'>
                             {/* <td className='w-[50px] text-center'>ID #</td> */}
                             <td className='w-[200px] text-center'>Ülke Adı</td>
@@ -88,10 +88,10 @@ const FirmaKarti = () => {
                             <td className='w-[100px] text-center'>İşlem</td>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody className=''>
                         {
                             filtered.map(item => (
-                                <tr key={item.ID} className='hover:bg-gray-200 duration-150 select-none cursor-pointer border divide-x'>
+                                <tr key={item.ID} className='hover:bg-gray-200 duration-150 select-none cursor-pointer border divide-x '>
                                     {/* <td className='w-[50px]  text-center'>{item.ID}</td> */}
                                     <td className='w-[200px]  text-center'>{item.ULKE_ADI}</td>
                                     <td className='w-[200px]  text-center'>{item.ORJ_ULKE_ADI}</td>
