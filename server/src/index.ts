@@ -3,6 +3,7 @@ import cors from 'cors';
 const app = express();
 
 import AksesuarRouter from './routes/Aksesuar';
+import RaporRouter from './routes/Rapor';
 import MalzemeKartiRouter from './routes/MalzemeKarti';
 import MalzemeDepoRouter from './routes/MalzemeDepo';
 import KalemIslemRouter from './routes/KalemIslem';
@@ -20,6 +21,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/aksesuar", AksesuarRouter);
+app.use("/rapor", RaporRouter);
 app.use("/malzemedepo", MalzemeDepoRouter);
 app.use("/malzemekarti", MalzemeKartiRouter);
 app.use("/kalem-islem", KalemIslemRouter);

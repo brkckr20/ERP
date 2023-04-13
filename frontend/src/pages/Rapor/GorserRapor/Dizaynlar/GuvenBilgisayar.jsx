@@ -1,8 +1,19 @@
 import React, { useState } from 'react';
-import { Document, Page, Text, View, StyleSheet, PDFViewer } from '@react-pdf/renderer';
+import { Document, Page, Text, View, StyleSheet, PDFViewer, Font } from '@react-pdf/renderer';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import axios from 'axios';
+import { API_URL } from '../../../../config/api';
+import formatDate from '../../../../utils/formatDate';
+import Montserrat from './Montserrat-Regular.ttf'
+import { kisalt } from '../../../../utils/metinKisalt';
 
+Font.register({
+    family: "Montserrat",
+    fonts: [
+        { src: Montserrat }
+    ]
+})
 
 const BORDER_COLOR = '#bfbfbf'
 const BORDER_STYLE = 'solid'
@@ -13,7 +24,7 @@ const styles = StyleSheet.create({
     page: {
         flexDirection: 'column',
         fontSize: 12,
-        padding: 10
+        padding: 10,
     },
     section: {
         margin: 5,
@@ -27,7 +38,8 @@ const styles = StyleSheet.create({
     pageTitle: {
         fontSize: 14,
         borderBottomWidth: 1,
-        borderColor: "#ccc"
+        borderColor: "#ccc",
+        fontFamily: "Montserrat",
     },
     table: {
         display: "table",
@@ -40,7 +52,7 @@ const styles = StyleSheet.create({
     },
     tableRow: {
         margin: "auto",
-        flexDirection: "row"
+        flexDirection: "row",
     },
     tableCol1Header: {
         width: COLN_WIDTH + '%',
@@ -77,46 +89,57 @@ const styles = StyleSheet.create({
         borderTopWidth: 0
     },
     tableCellHeader: {
-        margin: 5,
-        fontSize: 12,
-        fontWeight: 500
+        margin: 2,
+        fontSize: 10,
+        fontWeight: 500,
+        fontFamily: "Montserrat",
     },
     tableCell: {
-        margin: 5,
-        fontSize: 10
+        margin: 3,
+        fontSize: 10,
+        fontFamily: "Montserrat",
     },
     bg: {
         backgroundColor: "#34495e",
         color: "#fff"
-    }
+    },
 });
 
-const TarihSec = ({ startDate, setStartDate, endDate, setEndDate, setInputVisible }) => {
+const TarihSec = ({ startDate, setStartDate, endDate, setEndDate, setInputVisible, setValues }) => {
+
+    const raporGetir = async () => {
+        const response = await axios.get(`${API_URL}/rapor/malzemedepo?baslangic=${startDate}&bitis=${endDate}`);
+        setValues(response.data.data);
+        setInputVisible(false)
+    }
+
     return <div className='p-2'>
-        <label htmlFor="">Başlangıç Tarihi : </label>
+        <label>Başlangıç Tarihi : </label>
         <DatePicker dateFormat="dd.MM.yyyy" className='border' selected={startDate} onChange={(date) => setStartDate(date)} />
-        <label htmlFor="">Bitiş Tarihi : </label>
+        <label>Bitiş Tarihi : </label>
         <DatePicker dateFormat="dd.MM.yyyy" className='border' selected={endDate} onChange={(date) => setEndDate(date)} />
-        <button className='p-1 bg-black text-white mt-2' onClick={() => setInputVisible(false)}>Rapor</button>
+        <button className='p-1 bg-black text-white mt-2' onClick={raporGetir}>Rapor</button>
     </div>
 }
-
 
 const GuvenBilgisayar = () => {
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
     const [inputVisible, setInputVisible] = useState(true);
+    const [values, setValues] = useState([]);
+    // console.log(values);
 
     return (
         <div className='w-full'>
             {
-                inputVisible ? (<TarihSec startDate={startDate} setStartDate={setStartDate} endDate={endDate} setEndDate={setEndDate} setInputVisible={setInputVisible} />) : (
+                inputVisible ? (<TarihSec setValues={setValues} startDate={startDate} setStartDate={setStartDate} endDate={endDate} setEndDate={setEndDate} setInputVisible={setInputVisible} />) : (
                     <div style={styles.pdfContainer}>
+                        <button className='bg-blue-600 text-white px-2 py-1 m-1 rounded' onClick={() => setInputVisible(true)}>Yeni Rapor</button>
                         <PDFViewer width="100%" height="100%">
-                            <Document title='GüvenBilgisayar.pdf'>
+                            <Document title='GüvenBilgisayarIslemRaporu.pdf'>
                                 <Page size="A4" style={styles.page} orientation='landscape'>
                                     <View style={styles.section}>
-                                        <Text style={styles.pageTitle}>Güven Bilgisayar Islem Raporu</Text>
+                                        <Text style={styles.pageTitle}>Güven Bilgisayar İşlem Raporu</Text>
                                     </View>
                                     <View style={styles.table}>
                                         <View style={[styles.tableRow, styles.bg]}>
@@ -139,55 +162,36 @@ const GuvenBilgisayar = () => {
                                                 <Text style={styles.tableCellHeader}>Not 1</Text>
                                             </View>
                                             <View style={styles.tableColHeader}>
-                                                <Text style={styles.tableCellHeader}>Malzeme Marka</Text>
+                                                <Text style={styles.tableCellHeader}>Açıklama</Text>
                                             </View>
                                         </View>
-                                        <View style={styles.tableRow}>
-                                            <View style={styles.tableCol1}>
-                                                <Text style={styles.tableCell}>14.04.2023</Text>
-                                            </View>
-                                            <View style={styles.tableCol}>
-                                                <Text style={styles.tableCell}>Güven Bilgisayar</Text>
-                                            </View>
-                                            <View style={styles.tableCol}>
-                                                <Text style={styles.tableCell}>Stok Giris</Text>
-                                            </View>
-                                            <View style={styles.tableCol}>
-                                                <Text style={styles.tableCell}>85A MODEL TONER</Text>
-                                            </View>
-                                            <View style={styles.tableCol}>
-                                                <Text style={styles.tableCell}>1</Text>
-                                            </View>
-                                            <View style={styles.tableCol}>
-                                                <Text style={styles.tableCell}>ADET</Text>
-                                            </View>
-                                            <View style={styles.tableCol}>
-                                                <Text style={styles.tableCell}>HP</Text>
-                                            </View>
-                                        </View>
-                                        <View style={styles.tableRow}>
-                                            <View style={styles.tableCol1}>
-                                                <Text style={styles.tableCell}>14.04.2023</Text>
-                                            </View>
-                                            <View style={styles.tableCol}>
-                                                <Text style={styles.tableCell}>Güven Bilgisayar</Text>
-                                            </View>
-                                            <View style={styles.tableCol}>
-                                                <Text style={styles.tableCell}>Stok Giris</Text>
-                                            </View>
-                                            <View style={styles.tableCol}>
-                                                <Text style={styles.tableCell}>85A MODEL TONER</Text>
-                                            </View>
-                                            <View style={styles.tableCol}>
-                                                <Text style={styles.tableCell}>1</Text>
-                                            </View>
-                                            <View style={styles.tableCol}>
-                                                <Text style={styles.tableCell}>ADET</Text>
-                                            </View>
-                                            <View style={styles.tableCol}>
-                                                <Text style={styles.tableCell}>HP</Text>
-                                            </View>
-                                        </View>
+                                        {
+                                            values.map((item, index) => (
+                                                <View key={index} style={styles.tableRow}>
+                                                    <View style={styles.tableCol1}>
+                                                        <Text style={styles.tableCell}>{formatDate(item.TARIH)}</Text>
+                                                    </View>
+                                                    <View style={styles.tableCol}>
+                                                        <Text style={styles.tableCell}>{kisalt(item.FIRMA_ADI)}</Text>
+                                                    </View>
+                                                    <View style={styles.tableCol}>
+                                                        <Text style={styles.tableCell}>{item.KALEM_ISLEM}</Text>
+                                                    </View>
+                                                    <View style={styles.tableCol}>
+                                                        <Text style={styles.tableCell}>{item.MALZEME_ADI}</Text>
+                                                    </View>
+                                                    <View style={styles.tableCol}>
+                                                        <Text style={styles.tableCell}>{item.MIKTAR}</Text>
+                                                    </View>
+                                                    <View style={styles.tableCol}>
+                                                        <Text style={styles.tableCell}>{item.BIRIM}</Text>
+                                                    </View>
+                                                    <View style={styles.tableCol}>
+                                                        <Text style={styles.tableCell}>{item.ACIKLAMA}</Text>
+                                                    </View>
+                                                </View>
+                                            ))
+                                        }
                                     </View>
                                 </Page>
                             </Document>
@@ -195,8 +199,6 @@ const GuvenBilgisayar = () => {
                     </div>
                 )
             }
-
-
         </div>
     )
 }
