@@ -46,6 +46,7 @@ const MalzemeGiris = () => {
             MALZEME_ADI: selectedItem.MALZEME_ADI,
             MIKTAR: 0,
             BIRIM: selectedItem.BIRIM,
+            ACIKLAMA: selectedItem.ACIKLAMA
         }])
     }
 
@@ -199,7 +200,8 @@ const MalzemeGiris = () => {
                                             <td className='w-[200px]'>Malzeme Kodu</td>
                                             <td className='w-[300px]'>Malzeme Adı</td>
                                             <td className='w-[75px]'>Miktar</td>
-                                            <td className='w-[200px]'>Birim</td>
+                                            <td className='w-[100px]'>Birim</td>
+                                            <td className='w-[300px]'>Açıklama</td>
                                         </tr>
                                     </thead>
                                     <tbody className='overflow-x-scroll'>
@@ -225,7 +227,8 @@ const MalzemeGiris = () => {
                                                             onFocus={() => handleFocus(i)}
                                                             onBlur={convertDecimal}
                                                         /></td>
-                                                        <td className='w-[200px]'><input type="text" placeholder='Birim' value={i.BIRIM} disabled="disabled" /></td>
+                                                        <td className='w-[100px]'><input type="text" placeholder='Birim' value={i.BIRIM} disabled="disabled" /></td>
+                                                        <td className='w-[300px]'><input type="text" placeholder='Açıklama' className='w-full outline-none border' value={i.ACIKLAMA} /></td>
                                                     </tr>
                                                 ))
                                                 : oncekiKayit.map((i, k) => (
@@ -242,7 +245,8 @@ const MalzemeGiris = () => {
                                                             onChange={(e) => handleBirimUpdate(e, i)}
                                                             onFocus={() => handleFocus(i)}
                                                         /></td>
-                                                        <td className='w-[200px]'><input type="text" placeholder='Birim' value={i.BIRIM} disabled="disabled" /></td>
+                                                        <td className='w-[100px]'><input type="text" placeholder='Birim' value={i.BIRIM} disabled="disabled" /></td>
+                                                        <td className='w-[300px]'><input type="text" placeholder='Açıklama' className='w-full outline-none border' value={i.ACIKLAMA} /></td>
                                                     </tr>
                                                 ))
                                         }

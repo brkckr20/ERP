@@ -67,6 +67,7 @@ export interface MalzemeDepo{
     TEDARIKCI_KODU?: string;
     TEDARIKCI_ADI?: string;
     FATURA_NO?: string;
+    ACIKLAMA?: string;
 }
 
 export interface ResponseMessage {

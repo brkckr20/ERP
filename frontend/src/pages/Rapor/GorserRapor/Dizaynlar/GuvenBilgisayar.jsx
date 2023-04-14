@@ -127,7 +127,7 @@ const GuvenBilgisayar = () => {
     const [endDate, setEndDate] = useState(new Date());
     const [inputVisible, setInputVisible] = useState(true);
     const [values, setValues] = useState([]);
-    // console.log(values);
+    console.log(values);
 
     return (
         <div className='w-full'>

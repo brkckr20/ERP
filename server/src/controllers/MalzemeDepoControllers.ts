@@ -139,13 +139,14 @@ export const MalzemeDepoKaydet: Handler = (req, res) => {
     if (Number(id) === 0) { //yeni kayıt
         try {
             mysql.connect();
-            const { ISLEM_CINSI, TARIH, TEDARIKCI_KODU, TEDARIKCI_ADI, FATURA_NO }: MalzemeDepo = values;
-            const sorgu = `INSERT INTO malzeme_depo1 (ISLEM_CINSI,TARIH, FIRMA_KODU, FIRMA_ADI,FATURA_NO) VALUES (
+            const { ISLEM_CINSI, TARIH, TEDARIKCI_KODU, TEDARIKCI_ADI, FATURA_NO, ACIKLAMA }: MalzemeDepo = values;
+            const sorgu = `INSERT INTO malzeme_depo1 (ISLEM_CINSI,TARIH, FIRMA_KODU, FIRMA_ADI,FATURA_NO,ACIKLAMA) VALUES (
                 '${ISLEM_CINSI}',
                 '${TARIH}',
                 '${TEDARIKCI_KODU}',
                 '${TEDARIKCI_ADI}',
-                '${FATURA_NO}'
+                '${FATURA_NO}',
+                '${ACIKLAMA}'
             )`;
             mysql.query(sorgu, [], (error, result, fields) => {
                 if (error) {
